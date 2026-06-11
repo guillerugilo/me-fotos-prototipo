@@ -61,6 +61,8 @@
   .b-pend{background:#fbf0d8;color:#9a7b1f}.b-val{background:#e6eef5;color:#42688a}
   .b-pay{background:#e2efe1;color:#3f6b3c}.b-cort{background:#efe7f3;color:#7a5a91}
   .b-canc{background:#f1e3e1;color:#a14b40}
+  .b-pres{background:#e2efe1;color:#3f6b3c}.b-aus{background:#f7e7da;color:#9a5a2c}.b-nm{background:#eef0f0;color:#94a0a0}
+  .badges{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex:none}
   .alumno{display:flex;align-items:center;justify-content:space-between;padding:12px 4px;border-bottom:1px solid var(--line)}
   .alumno:last-child{border-bottom:none}
   .alumno .nm{font-size:14px;font-weight:500}.alumno .mt{font-size:11.5px;color:var(--muted)}
@@ -113,12 +115,11 @@
       <p>Desde este sitio las familias podrán registrar pagos, los docentes consultar el estado de los registros de su grado o sala y los directivos realizar el seguimiento de toda la institución.</p>
       <p>Seleccioná cómo deseás ingresar para continuar.</p>
     </div>
-    <a class="role" href="#f1"><span class="ic">👪</span><div><div class="t">Familia</div><div class="d">Registrar la compra del álbum</div></div></a>
+    <a class="role" href="#f1"><span class="ic">👪</span><div><div class="t">Familias y estudiantes</div><div class="d">Ingresar datos y el pago de las fotos</div></div></a>
     <a class="role" href="#d1"><span class="ic">🍎</span><div><div class="t">Docente</div><div class="d">Ver sus cursos y registrar pagos en efectivo</div></div></a>
     <a class="role" href="#dir1"><span class="ic">🏫</span><div><div class="t">Directivo</div><div class="d">Toda la institución: estadísticas y cobros</div></div></a>
     <a class="role" href="#a1"><span class="ic">⚙️</span><div><div class="t">Fotógrafa</div><div class="d">Campañas, colegios, productos, reportes</div></div></a>
-    <a class="role review" href="#mp-info"><span class="ic">💳</span><div><div class="t">Pagos con Mercado Pago</div><div class="d">Opción elegida: Automática — tocá para repasar</div></div><span class="rtag">✓ A</span></a>
-    <div style="text-align:center;margin-top:20px"><span style="font-size:11px;color:var(--muted);background:var(--soft);padding:5px 13px;border-radius:20px">Prototipo · versión 12 · jun 2026</span></div>
+    <div style="text-align:center;margin-top:20px"><span style="font-size:11px;color:var(--muted);background:var(--soft);padding:5px 13px;border-radius:20px">Prototipo · versión 13 · jun 2026</span></div>
   </section>
 
   <!-- ===== FAMILIA ===== -->
@@ -150,7 +151,7 @@
       <div class="kv"><span class="k">Fecha de las fotos</span><span class="v">22 de septiembre</span></div>
       <div class="kv"><span class="k">Fecha límite para pagar</span><span class="v">15 de septiembre</span></div>
     </div>
-    <div class="note">Todos los alumnos participan de las fotos grupales e individuales, independientemente de que hayan pagado o no.</div>
+    <div class="note">Todos los alumnos participan de las fotos grupales e individuales, independientemente de que hayan pagado o no.<br><br>En caso de lluvia, paro docente o cualquier eventualidad se reprogramará una nueva fecha para la toma de fotos.</div>
     <a class="btn btn-primary" href="#f3">Continuar con este colegio</a>
     <a class="btn btn-ghost" href="#f2">Elegir otro colegio</a>
   </section>
@@ -396,15 +397,36 @@
   <section class="screen" id="d3">
     <h1>Sala 4 · A</h1>
     <div class="pill-row"><span class="pill">18 registros</span><span class="pill">11 pagados</span><span class="pill">7 pendientes</span></div>
-    <a class="btn btn-primary" href="#nuevo">+ Nuevo registro</a>
-    <div class="card" style="padding:6px 14px;margin-top:14px">
-      <a class="alumno" href="#d4" style="color:inherit"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · Registro 07/06</div></div><span class="badge b-pend">Pendiente pago</span></a>
-      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badge b-val">En revisión</span></div>
-      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badge b-pay">Pagado</span></div>
-      <div class="alumno"><div><div class="nm">Benjamín Ruiz</div><div class="mt">06/06</div></div><span class="badge b-cort">Fotito de regalo</span></div>
-      <div class="alumno"><div><div class="nm">Valentina Díaz</div><div class="mt">05/06</div></div><span class="badge b-canc">Cancelado</span></div>
+    <div class="pill-row"><span class="pill">📸 16 presentes</span><span class="pill">2 ausentes</span></div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#nuevo" style="margin-top:0">+ Nuevo registro</a>
+      <a class="btn btn-ghost" href="#asist" style="margin-top:0">📸 Asistencia del día</a>
+    </div>
+    <p class="hint">Cada alumno muestra su <b>asistencia el día de la foto</b> y el <b>estado del pago</b>.</p>
+    <div class="card" style="padding:6px 14px;margin-top:6px">
+      <a class="alumno" href="#d4" style="color:inherit"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · Registro 07/06</div></div><span class="badges"><span class="badge b-pres">✓ Presente</span><span class="badge b-pend">Pendiente pago</span></span></a>
+      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badges"><span class="badge b-pres">✓ Presente</span><span class="badge b-val">En revisión</span></span></div>
+      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badges"><span class="badge b-pres">✓ Presente</span><span class="badge b-pay">Pagado</span></span></div>
+      <div class="alumno"><div><div class="nm">Benjamín Ruiz</div><div class="mt">06/06</div></div><span class="badges"><span class="badge b-aus">Ausente</span><span class="badge b-cort">Fotito de regalo</span></span></div>
+      <div class="alumno"><div><div class="nm">Valentina Díaz</div><div class="mt">05/06</div></div><span class="badges"><span class="badge b-nm">Sin marcar</span><span class="badge b-canc">Cancelado</span></span></div>
     </div>
     <p class="hint">Tocá un alumno con pago pendiente para registrar efectivo recibido.</p>
+  </section>
+
+  <!-- ===== ASISTENCIA del día de la foto (docente) ===== -->
+  <section class="screen" id="asist">
+    <div class="step">Asistencia del día de la foto</div>
+    <h1>Sala 4 · A</h1>
+    <p class="lead">Marcá quién estuvo <b>presente</b> o <b>ausente</b> el día de la toma de fotos. Se guarda junto a cada registro.</p>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div class="nm">Tomás Pérez</div><span class="badges"><span class="badge b-pres">✓ Presente</span><a href="#asist" class="badge b-nm">Ausente</a></span></div>
+      <div class="alumno"><div class="nm">Martina Gómez</div><span class="badges"><span class="badge b-pres">✓ Presente</span><a href="#asist" class="badge b-nm">Ausente</a></span></div>
+      <div class="alumno"><div class="nm">Lucía Fernández</div><span class="badges"><span class="badge b-pres">✓ Presente</span><a href="#asist" class="badge b-nm">Ausente</a></span></div>
+      <div class="alumno"><div class="nm">Benjamín Ruiz</div><span class="badges"><a href="#asist" class="badge b-nm">Presente</a><span class="badge b-aus">✓ Ausente</span></span></div>
+      <div class="alumno"><div class="nm">Valentina Díaz</div><span class="badges"><a href="#asist" class="badge b-nm">Presente</a><a href="#asist" class="badge b-nm">Ausente</a></span></div>
+    </div>
+    <div class="note">El alumno participa de las fotos esté pago o no. La asistencia solo deja constancia de quién pudo ser fotografiado ese día.</div>
+    <a class="btn btn-primary" href="#d3">Guardar asistencia</a>
   </section>
 
   <section class="screen" id="d4">
@@ -487,10 +509,11 @@
   <section class="screen" id="dir3">
     <h1>Sala 4 · A</h1>
     <div class="pill-row"><span class="pill">18 registros</span><span class="pill">11 pagados</span><span class="pill">7 pendientes</span></div>
+    <div class="pill-row"><span class="pill">📸 16 presentes</span><span class="pill">2 ausentes</span></div>
     <div class="card" style="padding:6px 14px">
-      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badge b-val">En revisión</span></div>
-      <div class="alumno"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · 07/06</div></div><span class="badge b-pend">Pendiente</span></div>
-      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badge b-pay">Pagado</span></div>
+      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badges"><span class="badge b-pres">✓ Presente</span><span class="badge b-val">En revisión</span></span></div>
+      <div class="alumno"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · 07/06</div></div><span class="badges"><span class="badge b-pres">✓ Presente</span><span class="badge b-pend">Pendiente</span></span></div>
+      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badges"><span class="badge b-aus">Ausente</span><span class="badge b-pay">Pagado</span></span></div>
     </div>
     <a class="btn btn-primary" href="#nuevo">+ Nuevo registro</a>
     <div class="btn-row" style="margin-top:10px">

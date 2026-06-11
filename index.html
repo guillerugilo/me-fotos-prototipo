@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Monín Estudio · Gestión Escolar — Wireframes (Borrador)</title>
+<style>
+  :root{
+    --bg:#f3f6f5; --paper:#ffffff; --ink:#21384f; --muted:#7e8a92;
+    --line:#e2e8e8; --accent:#27425c; --accent-d:#192f43; --teal:#7aa49e;
+    --ok:#5a7d57; --warn:#c9a24b; --bad:#b06257; --info:#6b8aa6;
+    --soft:#eef4f3; --radius:14px; --shadow:0 10px 30px rgba(33,56,79,.12);
+  }
+  *{box-sizing:border-box}
+  a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:auto}
+  html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#ccd6d4}
+  body{display:flex;flex-direction:column;align-items:center;min-height:100vh}
+  .ribbon{width:100%;background:#21384f;color:#eef3f3;text-align:center;font-size:12px;letter-spacing:.04em;padding:7px 12px;position:sticky;top:0;z-index:50}
+  .ribbon b{color:#bcd9d3}
+  .device{width:100%;max-width:430px;background:var(--bg);min-height:100vh;position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  @media(min-width:520px){.device{margin:18px auto;min-height:auto;height:880px;border-radius:30px;overflow:hidden;border:10px solid #1d2f43}}
+  .appbar{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .appbar .nav{background:var(--soft);min-width:34px;height:34px;border-radius:9px;font-size:13px;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0 11px;gap:5px;font-weight:600}
+  .appbar .brand{font-weight:600;font-size:13px;letter-spacing:.18em;color:var(--teal);flex:1;text-align:right}
+  .scrollwrap{flex:1;overflow-y:auto}
+  /* ---- navegación SIN JavaScript: cada pantalla es un :target ---- */
+  .screen{display:none;padding:18px 16px 48px;scroll-margin-top:0}
+  .screen:target{display:block;animation:fade .18s ease}
+  body:not(:has(.screen:target)) #home{display:block}  /* home por defecto */
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  h1{font-size:21px;margin:6px 0 4px;font-weight:600}
+  h2{font-size:17px;margin:18px 0 8px;font-weight:600}
+  p{font-size:14px;line-height:1.5;color:#4a443c;margin:8px 0}
+  .lead{color:var(--muted);font-size:13.5px}
+  .step{display:inline-block;font-size:11px;color:#4d756f;background:#e6f0ee;padding:3px 9px;border-radius:20px;margin-bottom:10px;font-weight:600}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:12px 0}
+  a.card.tap{cursor:pointer;display:flex;align-items:center;gap:12px}
+  a.card.tap:active{transform:scale(.99)}
+  .imgph{background:repeating-linear-gradient(45deg,#e7eeed,#e7eeed 10px,#dde7e5 10px,#dde7e5 20px);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#9fb1ad;font-size:13px;text-align:center}
+  .imgph.lg{height:150px;margin:10px 0}
+  .imgph.sm{width:64px;height:64px;flex:none;font-size:22px}
+  .btn{display:block;width:100%;text-align:center;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:10px}
+  a.btn{display:block}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:active{background:var(--accent-d)}
+  .btn-ghost{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+  .btn-row{display:flex;gap:10px}.btn-row .btn{margin-top:0}
+  .field{margin:12px 0}
+  .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:600}
+  .field .inp{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;color:#a9a093}
+  .field .inp.filled{color:var(--ink)}
+  .req{color:var(--bad)}.opt{font-weight:400;color:#b8b0a4}
+  .row2{display:flex;gap:10px}.row2>.field{flex:1}
+  a.pay{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:13px;margin:9px 0;background:var(--paper)}
+  a.pay:active{border-color:var(--accent);background:#eef5f3}
+  .pay .ic{font-size:20px;width:26px;text-align:center}
+  .pay .arr{margin-left:auto;color:var(--accent);font-size:18px}
+  .pay small{display:block;color:var(--muted);font-size:11.5px}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+  .b-pend{background:#fbf0d8;color:#9a7b1f}.b-val{background:#e6eef5;color:#42688a}
+  .b-pay{background:#e2efe1;color:#3f6b3c}.b-cort{background:#efe7f3;color:#7a5a91}
+  .b-canc{background:#f1e3e1;color:#a14b40}
+  .alumno{display:flex;align-items:center;justify-content:space-between;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .alumno:last-child{border-bottom:none}
+  .alumno .nm{font-size:14px;font-weight:500}.alumno .mt{font-size:11.5px;color:var(--muted)}
+  .stat{display:flex;flex-direction:column;gap:2px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px}
+  .stat .n{font-size:22px;font-weight:700}.stat .l{font-size:11.5px;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .note{background:#eef5f3;border:1px solid #d7e7e3;border-radius:10px;padding:11px;font-size:12.5px;color:#566b67;margin:12px 0}
+  .aliasbox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#eef5f3;border:1px solid #d7e7e3;border-radius:12px;padding:13px 14px;margin:12px 0}
+  .aliaslbl{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:2px}
+  .aliasval{font-size:19px;font-weight:700;color:var(--ink)}
+  .copybtn{border:none;background:var(--teal);color:#fff;font-weight:600;font-size:13px;padding:10px 15px;border-radius:10px;cursor:pointer;flex:none}
+  .copybtn:active{background:#5f8a84}
+  .kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .kv:last-child{border:none}.kv .k{color:var(--muted)}.kv .v{font-weight:600}
+  .check{width:66px;height:66px;border-radius:50%;background:#e2efe1;color:#3f6b3c;display:flex;align-items:center;justify-content:center;font-size:32px;margin:6px auto 14px}
+  .reg{font-size:13px;color:var(--muted);padding:11px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+  .pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .pill{font-size:12px;border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:7px 12px;color:#6a6256}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:6px}
+  .home-hero{text-align:center;padding:18px 6px 4px}
+  .logo{font-size:13px;letter-spacing:.32em;color:var(--teal);font-weight:600}
+  .home-hero h1{font-size:22px;margin-top:4px}
+  .home-hero .welcome{font-size:16px;font-weight:600;color:var(--ink);margin-top:10px}
+  .home-hero p{text-align:left}
+  .home-hero .welcome{text-align:center}
+  a.role{display:flex;align-items:center;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;margin:11px 0}
+  a.role:active{border-color:var(--accent)}
+  a.role.review{border-style:dashed;border-color:#bcd6d1;background:#f4f9f8}
+  .role .rtag{font-size:10px;font-weight:700;color:#4d756f;background:#e6f0ee;padding:3px 8px;border-radius:20px;letter-spacing:.05em;margin-left:auto;align-self:flex-start}
+  .role .ic{font-size:24px;width:40px;height:40px;background:var(--soft);border-radius:11px;display:flex;align-items:center;justify-content:center;flex:none}
+  .role .t{font-weight:600;font-size:15px}.role .d{font-size:12px;color:var(--muted)}
+  .fakeinput{pointer-events:none}
+</style>
+</head>
+<body>
+<div class="ribbon">WIREFRAME · <b>Borrador para revisión</b> — estructura y flujo, no el diseño visual final</div>
+<div class="device">
+  <div class="appbar">
+    <a class="nav" href="#home">⌂ Inicio</a>
+    <span class="brand">MONÍN ESTUDIO</span>
+  </div>
+  <div class="scrollwrap">
+
+  <!-- ===== HOME (navegación del prototipo) ===== -->
+  <section class="screen" id="home">
+    <div class="home-hero">
+      <div class="logo">MONÍN ESTUDIO</div>
+      <h1>Fotos Escolares 2026</h1>
+      <p class="welcome">¡Bienvenidos!</p>
+      <p>Desde este sitio las familias podrán registrar pagos, los docentes consultar el estado de los registros de su grado o sala y los directivos realizar el seguimiento de toda la institución.</p>
+      <p>Seleccioná cómo deseás ingresar para continuar.</p>
+    </div>
+    <a class="role" href="#f1"><span class="ic">👪</span><div><div class="t">Familia</div><div class="d">Registrar la compra del álbum</div></div></a>
+    <a class="role" href="#d1"><span class="ic">🍎</span><div><div class="t">Docente</div><div class="d">Ver sus cursos y registrar pagos en efectivo</div></div></a>
+    <a class="role" href="#dir1"><span class="ic">🏫</span><div><div class="t">Directivo</div><div class="d">Toda la institución: estadísticas y cobros</div></div></a>
+    <a class="role" href="#a1"><span class="ic">⚙️</span><div><div class="t">Fotógrafa</div><div class="d">Campañas, colegios, productos, reportes</div></div></a>
+    <a class="role review" href="#mp-info"><span class="ic">💳</span><div><div class="t">Pagos con Mercado Pago</div><div class="d">Opción elegida: Automática — tocá para repasar</div></div><span class="rtag">✓ A</span></a>
+    <div style="text-align:center;margin-top:20px"><span style="font-size:11px;color:var(--muted);background:var(--soft);padding:5px 13px;border-radius:20px">Prototipo · versión 12 · jun 2026</span></div>
+  </section>
+
+  <!-- ===== FAMILIA ===== -->
+  <section class="screen" id="f1">
+    <div class="step">Bienvenida</div>
+    <h1>Fotografías Escolares</h1>
+    <p>Bienvenido/a. Desde este formulario podrás registrar la compra del álbum o carpeta de recuerdo escolar de tu hijo/a.</p>
+    <div class="note">Tené a mano los <b>datos del alumno</b> y el <b>comprobante de pago</b> (si abonás por transferencia o QR) antes de comenzar. El proceso demora menos de 2 minutos.</div>
+    <a class="btn btn-primary" href="#f2">Registrar un nuevo pedido</a>
+    <a class="btn btn-ghost" href="#consultar">Ya tengo un registro — consultar estado</a>
+  </section>
+
+  <section class="screen" id="f2">
+    <div class="step">Paso 1 · Colegio</div>
+    <h1>Seleccioná la institución</h1>
+    <p class="lead">Elegí el colegio o jardín al que asiste el alumno.</p>
+    <a class="card tap" href="#f2b"><span class="imgph sm">🏫</span><div><div style="font-weight:600">Jardín Arcoíris</div><div style="font-size:12px;color:var(--muted)">Campaña 2026</div></div></a>
+    <a class="card tap" href="#f2b"><span class="imgph sm">🏫</span><div><div style="font-weight:600">Colegio San Martín</div><div style="font-size:12px;color:var(--muted)">Campaña 2026</div></div></a>
+    <a class="card tap" href="#f2b"><span class="imgph sm">🏫</span><div><div style="font-weight:600">Instituto Belgrano</div><div style="font-size:12px;color:var(--muted)">Campaña 2026</div></div></a>
+  </section>
+
+  <section class="screen" id="f2b">
+    <div class="step">Paso 1 · Producto del colegio</div>
+    <h1>Jardín Arcoíris</h1>
+    <div class="imgph lg">📷 Imagen del álbum / carpeta</div>
+    <p>Carpeta de recuerdo escolar 20×30, tapa dura personalizada. Incluye 8 fotografías (individuales y grupales) y una foto grupal del curso.</p>
+    <div class="card">
+      <div class="kv"><span class="k">Precio</span><span class="v">$ 18.000</span></div>
+      <div class="kv"><span class="k">Fecha de las fotos</span><span class="v">22 de septiembre</span></div>
+      <div class="kv"><span class="k">Fecha límite para pagar</span><span class="v">15 de septiembre</span></div>
+    </div>
+    <div class="note">Todos los alumnos participan de las fotos grupales e individuales, independientemente de que hayan pagado o no.</div>
+    <a class="btn btn-primary" href="#f3">Continuar con este colegio</a>
+    <a class="btn btn-ghost" href="#f2">Elegir otro colegio</a>
+  </section>
+
+  <section class="screen" id="f3">
+    <div class="step">Paso 2 · Datos del alumno</div>
+    <h1>Datos del alumno</h1>
+    <p class="lead">Verificá que el nombre esté correctamente escrito para evitar errores en los registros.</p>
+    <div class="field"><label>Nombre completo del alumno <span class="req">*</span></label><div class="inp fakeinput">Ej. Martina Gómez</div></div>
+    <div class="row2">
+      <div class="field"><label>Turno <span class="req">*</span></label><div class="inp fakeinput">Mañana ▾</div></div>
+      <div class="field"><label>Sala / grado / año <span class="req">*</span></label><div class="inp fakeinput">Sala 4 ▾</div></div>
+    </div>
+    <div class="field"><label>División <span class="req">*</span></label><div class="inp fakeinput">A ▾</div></div>
+    <h2>Responsable</h2>
+    <div class="field"><label>Nombre de madre, padre, tutor o familiar <span class="req">*</span></label><div class="inp fakeinput">Ej. Laura Gómez</div></div>
+    <div class="field"><label>Teléfono <span class="req">*</span></label><div class="inp fakeinput">Ej. 11 2465 8249</div></div>
+    <div class="field"><label>Correo electrónico <span class="opt">(opcional)</span></label><div class="inp fakeinput">ejemplo@mail.com</div></div>
+    <a class="btn btn-primary" href="#f4">Continuar</a>
+    <p class="hint" style="text-align:center;margin-top:12px">Si el alumno ya tuviera un pedido cargado, antes de seguir verías este aviso:</p>
+    <a class="btn btn-ghost" href="#f3dup">Ver aviso de pedido existente</a>
+  </section>
+
+  <section class="screen" id="f3dup">
+    <div class="step">Aviso</div>
+    <h1>Este alumno ya tiene un pedido</h1>
+    <p>Ya hay un pedido registrado para <b>Martina Gómez</b> (Sala 4 · A).</p>
+    <div class="card">
+      <div class="kv"><span class="k">Pedido existente</span><span class="v">#A26-0148</span></div>
+      <div class="kv"><span class="k">Responsable</span><span class="v">Laura Gómez</span></div>
+      <div class="kv"><span class="k">Estado</span><span class="v"><span class="badge b-pay">Pagado</span></span></div>
+    </div>
+    <p class="lead">Si sos otro responsable (por ejemplo, el otro progenitor) y querés un álbum aparte, podés sumar un pedido adicional para el mismo alumno. Cada pedido es independiente.</p>
+    <a class="btn btn-primary" href="#f4">Sí, sumar otro pedido</a>
+    <a class="btn btn-ghost" href="#f3">No, revisar los datos</a>
+  </section>
+
+  <section class="screen" id="f4">
+    <div class="step">Paso 3 · Forma de pago</div>
+    <h1>¿Cómo querés abonar?</h1>
+    <p class="lead">Tocá la forma de pago que prefieras para continuar.</p>
+    <a class="pay" href="#mp-a"><span class="ic">💳</span><div>Mercado Pago<small>Varios medios de pago · +10% de recargo</small></div><span class="arr">›</span></a>
+    <a class="pay" href="#f4t"><span class="ic">🏦</span><div>Transferencia bancaria<small>Te pediremos el comprobante</small></div><span class="arr">›</span></a>
+    <a class="pay" href="#f4qr"><span class="ic">📱</span><div>QR Banco Provincia<small>Te pediremos el comprobante</small></div><span class="arr">›</span></a>
+    <a class="pay" href="#f6"><span class="ic">💵</span><div>Efectivo<small>Queda pendiente hasta que lo confirme la docente / fotógrafa</small></div><span class="arr">›</span></a>
+  </section>
+
+  <section class="screen" id="f4t">
+    <div class="step">Paso 3 · Transferencia</div>
+    <h1>Transferí el importe</h1>
+    <p class="lead">Transferí a este alias y después subí el comprobante.</p>
+    <div class="aliasbox">
+      <div><div class="aliaslbl">Alias para transferir</div><div class="aliasval">monin.estudio</div></div>
+      <button type="button" class="copybtn" onclick="copyAlias(this,'monin.estudio')">Copiar</button>
+    </div>
+    <div class="card"><div class="kv"><span class="k">Importe a transferir</span><span class="v">$ 18.000</span></div></div>
+    <a class="btn btn-primary" href="#f5">Ya transferí — subir comprobante</a>
+  </section>
+
+  <section class="screen" id="f4qr">
+    <div class="step">Paso 3 · QR Banco Provincia</div>
+    <h1>Escaneá el código QR</h1>
+    <p class="lead">Pagá escaneando el QR y después subí el comprobante.</p>
+    <div class="imgph lg" style="height:190px">📱 Código QR de pago</div>
+    <div class="card"><div class="kv"><span class="k">Importe</span><span class="v">$ 18.000</span></div></div>
+    <a class="btn btn-primary" href="#f5">Ya pagué — subir comprobante</a>
+  </section>
+
+  <section class="screen" id="f5">
+    <div class="step">Paso 4 · Comprobante</div>
+    <h1>Adjuntá el comprobante</h1>
+    <p>Para completar el registro, subí el comprobante de tu transferencia o pago con QR.</p>
+    <div class="imgph lg">📎 Tocá para subir archivo<br><small style="color:#b3a795">JPG · PNG · PDF</small></div>
+    <div class="hint">El comprobante queda guardado junto al registro para su revisión.</div>
+    <a class="btn btn-primary" href="#f6">Continuar</a>
+  </section>
+
+  <section class="screen" id="f6">
+    <div class="step">Paso 5 · Comentarios <span class="opt">(opcional)</span></div>
+    <h1>¿Querés agregar algo?</h1>
+    <p class="lead">Por ejemplo: foto con hermanos, una consulta especial o una observación importante.</p>
+    <div class="field"><div class="inp fakeinput" style="min-height:90px">Escribí aquí (opcional)…</div></div>
+    <a class="btn btn-primary" href="#f7">Finalizar registro</a>
+  </section>
+
+  <section class="screen" id="f7">
+    <div class="check">✓</div>
+    <h1 style="text-align:center">Registro recibido correctamente</h1>
+    <p style="text-align:center" class="lead">¡Listo! Guardá tu número de registro: lo vas a necesitar para consultar el estado de tu pedido.</p>
+    <div class="aliasbox">
+      <div><div class="aliaslbl">Tu número de registro</div><div class="aliasval">#A26-0148</div></div>
+      <button type="button" class="copybtn" onclick="copyAlias(this,'#A26-0148')">Copiar</button>
+    </div>
+    <div class="note">📸 Sacá una captura de pantalla o copiá tu número de registro. Con ese número vas a poder volver y revisar el estado de tu pedido cuando quieras.</div>
+    <div class="card">
+      <div class="kv"><span class="k">Fecha</span><span class="v">10/06/2026</span></div>
+      <div class="kv"><span class="k">Colegio</span><span class="v">Jardín Arcoíris</span></div>
+      <div class="kv"><span class="k">Alumno</span><span class="v">Martina Gómez</span></div>
+      <div class="kv"><span class="k">Estado</span><span class="v"><span class="badge b-val">En revisión</span></span></div>
+    </div>
+    <div class="note">Gracias por registrar tu pedido. Podés volver cuando quieras a revisar el estado del mismo.</div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#consultar">Consultar estado</a>
+      <a class="btn btn-ghost" href="#home">Volver al inicio</a>
+    </div>
+  </section>
+
+  <!-- ===== CONSULTA DE ESTADO (familia vuelve a revisar) ===== -->
+  <section class="screen" id="consultar">
+    <div class="step">Consultar estado</div>
+    <h1>Consultá tu pedido</h1>
+    <p class="lead">Ingresá el número de registro que recibiste y el teléfono que cargaste al registrarte.</p>
+    <div class="field"><label>Número de registro <span class="req">*</span></label><div class="inp fakeinput">Ej. #A26-0148</div></div>
+    <div class="field"><label>Teléfono del responsable <span class="req">*</span></label><div class="inp fakeinput">Ej. 11 2465 8249</div></div>
+    <a class="btn btn-primary" href="#estado">Consultar estado</a>
+    <a class="btn btn-ghost" href="#f1">Volver</a>
+  </section>
+
+  <section class="screen" id="estado">
+    <div class="step">Estado del pedido</div>
+    <h1>Tu pedido</h1>
+    <div class="card">
+      <div class="kv"><span class="k">N° de registro</span><span class="v">#A26-0148</span></div>
+      <div class="kv"><span class="k">Alumno</span><span class="v">Martina Gómez</span></div>
+      <div class="kv"><span class="k">Colegio</span><span class="v">Jardín Arcoíris</span></div>
+      <div class="kv"><span class="k">Forma de pago</span><span class="v">Transferencia</span></div>
+      <div class="kv"><span class="k">Estado</span><span class="v"><span class="badge b-val">En revisión</span></span></div>
+    </div>
+    <div class="note">Tu pago está siendo verificado por la fotógrafa. Cuando se confirme, el estado va a pasar a “Pagado”. Podés volver a consultar cuando quieras.</div>
+    <a class="btn btn-ghost" href="#home">Volver al inicio</a>
+  </section>
+
+  <!-- ===== MERCADO PAGO · ayuda de decisión (2 opciones) ===== -->
+  <section class="screen" id="mp-info">
+    <div class="step">Para decidir con Guille</div>
+    <h1>Pagos con Mercado Pago</h1>
+    <p class="lead">Quedó elegida la <b>Opción A (automática)</b>. Dejo la comparación abajo por si querés repasarla.</p>
+
+    <div class="card" style="border-color:#9bbcb8;border-width:2px">
+      <div style="font-weight:700;font-size:15px">Opción A · Automático <span class="badge b-pay" style="margin-left:6px">✓ Elegida</span></div>
+      <p style="margin:8px 0">La familia paga dentro de Mercado Pago —con varios medios (tarjeta, dinero en cuenta, débito, cuotas) y un <b>10% de recargo</b> que cubre las comisiones— y <b>el sistema marca el pago como “Pagado” solo</b>. No tenés que revisar nada.</p>
+      <div class="kv"><span class="k">Trabajo para vos</span><span class="v">Ninguno</span></div>
+      <div class="kv"><span class="k">Necesita</span><span class="v">Conectar tu cuenta de MP</span></div>
+      <div class="kv"><span class="k">Costo</span><span class="v">MP cobra una comisión por pago</span></div>
+      <a class="btn btn-ghost" href="#mp-a">Ver cómo lo vive la familia ›</a>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;font-size:15px">Opción B · Manual (como transferencia)</div>
+      <p style="margin:8px 0">La familia te paga por Mercado Pago a tu alias y <b>sube el comprobante</b>. Vos lo revisás y confirmás, igual que las transferencias.</p>
+      <div class="kv"><span class="k">Trabajo para vos</span><span class="v">Revisar cada comprobante</span></div>
+      <div class="kv"><span class="k">Necesita</span><span class="v">Nada nuevo</span></div>
+      <div class="kv"><span class="k">Costo</span><span class="v">Sin comisión de integración</span></div>
+      <a class="btn btn-ghost" href="#mp-b">Ver cómo lo vive la familia ›</a>
+    </div>
+
+    <div class="note">Cuando decidas cuál preferís, dejamos esa opción fija en el sistema. Se puede cambiar más adelante.</div>
+    <a class="btn btn-ghost" href="#home">Volver al inicio</a>
+  </section>
+
+  <section class="screen" id="mp-a">
+    <div class="step">Mercado Pago · Opción A (automático)</div>
+    <h1>Pago online</h1>
+    <p class="lead">Pagás al instante y elegís el medio que prefieras: dinero en tu cuenta de Mercado Pago, tarjeta de crédito, débito o en cuotas.</p>
+    <div class="note">⚠️ Los pagos con Mercado Pago tienen un <b>10% de recargo</b>, que cubre las comisiones del servicio. Si preferís evitarlo, podés pagar por transferencia o efectivo.</div>
+    <div class="card">
+      <div class="kv"><span class="k">Precio del producto</span><span class="v">$ 18.000</span></div>
+      <div class="kv"><span class="k">Recargo Mercado Pago (10%)</span><span class="v">$ 1.800</span></div>
+      <div class="kv"><span class="k" style="color:var(--ink);font-weight:700">Total a pagar</span><span class="v" style="font-size:16px">$ 19.800</span></div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-weight:700;color:#0a78c2;margin-bottom:8px">Mercado&nbsp;Pago</div>
+      <div class="imgph lg">💳 Dinero en cuenta · Tarjeta de crédito · Débito · Cuotas</div>
+    </div>
+    <a class="btn btn-primary" href="#mp-aok">Pagar $ 19.800</a>
+    <a class="btn btn-ghost" href="#mp-info">‹ Comparar con la otra opción</a>
+  </section>
+
+  <section class="screen" id="mp-aok">
+    <div class="check">✓</div>
+    <h1 style="text-align:center">¡Pago realizado!</h1>
+    <p style="text-align:center" class="lead">El registro quedó confirmado automáticamente. Guardá tu número de registro para consultar el estado más adelante.</p>
+    <div class="aliasbox">
+      <div><div class="aliaslbl">Tu número de registro</div><div class="aliasval">#A26-0149</div></div>
+      <button type="button" class="copybtn" onclick="copyAlias(this,'#A26-0149')">Copiar</button>
+    </div>
+    <div class="note">📸 Sacá una captura de pantalla o copiá tu número de registro. Con ese número vas a poder volver y revisar el estado de tu pedido cuando quieras.</div>
+    <div class="card">
+      <div class="kv"><span class="k">Alumno</span><span class="v">Martina Gómez</span></div>
+      <div class="kv"><span class="k">Total pagado</span><span class="v">$ 19.800 <span style="font-weight:400;color:var(--muted);font-size:12px">(incluye 10% MP)</span></span></div>
+      <div class="kv"><span class="k">Estado</span><span class="v"><span class="badge b-pay">Pagado</span></span></div>
+    </div>
+    <div class="note">Gracias por registrar tu pedido. Podés volver cuando quieras a revisar el estado del mismo.</div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#consultar">Consultar estado</a>
+      <a class="btn btn-ghost" href="#home">Volver al inicio</a>
+    </div>
+  </section>
+
+  <section class="screen" id="mp-b">
+    <div class="step">Mercado Pago · Opción B (manual)</div>
+    <h1>Pago por Mercado Pago</h1>
+    <p>La familia te paga a tu alias de Mercado Pago y después sube el comprobante.</p>
+    <div class="card">
+      <div class="kv"><span class="k">Alias</span><span class="v">monin.estudio</span></div>
+      <div class="kv"><span class="k">Importe</span><span class="v">$ 18.000</span></div>
+    </div>
+    <div class="imgph lg">📎 Subir comprobante<br><small style="color:#9fb1ad">JPG · PNG · PDF</small></div>
+    <a class="btn btn-primary" href="#f7">Enviar comprobante</a>
+    <a class="btn btn-ghost" href="#mp-info">‹ Comparar con la otra opción</a>
+    <div class="note">Queda en “En revisión” hasta que vos lo revises (igual que una transferencia).</div>
+  </section>
+
+  <!-- ===== DOCENTE ===== -->
+  <section class="screen" id="d1">
+    <div class="home-hero"><div class="logo">PANEL DOCENTE</div><h1>Ingreso</h1></div>
+    <div class="field"><label>Usuario</label><div class="inp fakeinput">docente.sala4</div></div>
+    <div class="field"><label>Contraseña</label><div class="inp fakeinput">••••••••</div></div>
+    <a class="btn btn-primary" href="#d2">Ingresar</a>
+    <p class="hint" style="text-align:center;margin-top:16px">¿Olvidaste tus datos de acceso?<br>Contactá a la fotógrafa para solicitarlos nuevamente.</p>
+  </section>
+
+  <section class="screen" id="d2">
+    <h1>Mis cursos</h1>
+    <p class="lead">Jardín Arcoíris · Campaña 2026</p>
+    <a class="card tap" href="#d3"><div><div style="font-weight:600">Sala 4 · A · Turno mañana</div><div style="font-size:12px;color:var(--muted)">18 alumnos registrados · 📅 Fotos: 22 sep</div></div><span style="margin-left:auto;color:var(--accent)">›</span></a>
+    <a class="card tap" href="#d3"><div><div style="font-weight:600">Sala 4 · B · Turno mañana</div><div style="font-size:12px;color:var(--muted)">15 alumnos registrados · 📅 Fotos: 22 sep</div></div><span style="margin-left:auto;color:var(--accent)">›</span></a>
+    <a class="btn btn-ghost" href="#dperfil" style="margin-top:14px">👤 Mis datos de contacto</a>
+  </section>
+
+  <section class="screen" id="dperfil">
+    <div class="step">Mis datos</div>
+    <h1>Mis datos de contacto</h1>
+    <p class="lead">Cargá o actualizá tu teléfono.</p>
+    <div class="card">
+      <div class="kv"><span class="k">Usuario</span><span class="v">docente.sala4</span></div>
+      <div class="kv"><span class="k">Cursos</span><span class="v">Sala 4 · A y B</span></div>
+    </div>
+    <div class="field"><label>Teléfono</label><div class="inp filled fakeinput">11 2465 8249</div></div>
+    <a class="btn btn-primary" href="#d2">Guardar</a>
+  </section>
+
+  <section class="screen" id="d3">
+    <h1>Sala 4 · A</h1>
+    <div class="pill-row"><span class="pill">18 registros</span><span class="pill">11 pagados</span><span class="pill">7 pendientes</span></div>
+    <a class="btn btn-primary" href="#nuevo">+ Nuevo registro</a>
+    <div class="card" style="padding:6px 14px;margin-top:14px">
+      <a class="alumno" href="#d4" style="color:inherit"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · Registro 07/06</div></div><span class="badge b-pend">Pendiente pago</span></a>
+      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badge b-val">En revisión</span></div>
+      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badge b-pay">Pagado</span></div>
+      <div class="alumno"><div><div class="nm">Benjamín Ruiz</div><div class="mt">06/06</div></div><span class="badge b-cort">Fotito de regalo</span></div>
+      <div class="alumno"><div><div class="nm">Valentina Díaz</div><div class="mt">05/06</div></div><span class="badge b-canc">Cancelado</span></div>
+    </div>
+    <p class="hint">Tocá un alumno con pago pendiente para registrar efectivo recibido.</p>
+  </section>
+
+  <section class="screen" id="d4">
+    <div class="step">Registrar pago en efectivo</div>
+    <h1>Tomás Pérez</h1>
+    <div class="card">
+      <div class="kv"><span class="k">Curso</span><span class="v">Sala 4 · A</span></div>
+      <div class="kv"><span class="k">Producto</span><span class="v">Carpeta escolar</span></div>
+      <div class="kv"><span class="k">Importe</span><span class="v">$ 18.000</span></div>
+      <div class="kv"><span class="k">Estado actual</span><span class="v"><span class="badge b-pend">Pendiente de pago</span></span></div>
+    </div>
+    <div class="note">Al confirmar se guardará automáticamente fecha, hora y tu usuario como responsable del cobro.</div>
+    <a class="btn btn-primary" href="#d3">Confirmar efectivo recibido</a>
+    <a class="btn btn-ghost" href="#d3">Cancelar</a>
+  </section>
+
+  <!-- ===== NUEVO REGISTRO (docente / directivo) ===== -->
+  <section class="screen" id="nuevo">
+    <div class="step">Nuevo registro</div>
+    <h1>Cargar registro</h1>
+    <p class="lead">Cargá un pedido completo en nombre de la familia (por ejemplo, cuando pagan en efectivo o te traen los datos en papel).</p>
+    <div class="card">
+      <div class="kv"><span class="k">Colegio</span><span class="v">Jardín Arcoíris</span></div>
+      <div class="kv"><span class="k">Curso</span><span class="v">Sala 4 · A · Mañana</span></div>
+    </div>
+    <div class="field"><label>Nombre completo del alumno <span class="req">*</span></label><div class="inp fakeinput">Ej. Martina Gómez</div></div>
+    <div class="row2">
+      <div class="field"><label>Sala / grado <span class="req">*</span></label><div class="inp fakeinput">Sala 4 ▾</div></div>
+      <div class="field"><label>División <span class="req">*</span></label><div class="inp fakeinput">A ▾</div></div>
+    </div>
+    <div class="field"><label>Nombre de madre, padre, tutor o familiar <span class="req">*</span></label><div class="inp fakeinput">Ej. Laura Gómez</div></div>
+    <div class="field"><label>Teléfono <span class="req">*</span></label><div class="inp fakeinput">Ej. 11 2465 8249</div></div>
+    <h2>Pago</h2>
+    <div class="row2">
+      <div class="field"><label>Forma de pago <span class="req">*</span></label><div class="inp fakeinput">Efectivo ▾</div></div>
+      <div class="field"><label>Estado <span class="req">*</span></label><div class="inp fakeinput">Pagado ▾</div></div>
+    </div>
+    <a class="btn btn-primary" href="#nuevo-ok">Guardar registro</a>
+  </section>
+
+  <section class="screen" id="nuevo-ok">
+    <div class="check">✓</div>
+    <h1 style="text-align:center">Registro cargado</h1>
+    <p style="text-align:center" class="lead">Se guardó el registro de Martina Gómez en Sala 4 · A.</p>
+    <div class="card">
+      <div class="kv"><span class="k">N° de registro</span><span class="v">#A26-0150</span></div>
+      <div class="kv"><span class="k">Estado</span><span class="v"><span class="badge b-pay">Pagado</span></span></div>
+    </div>
+    <div class="note">Se guardó fecha, hora y el usuario que cargó el registro.</div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#nuevo">Cargar otro</a>
+      <a class="btn btn-ghost" href="#home">Volver al inicio</a>
+    </div>
+  </section>
+
+  <!-- ===== DIRECTIVO ===== -->
+  <section class="screen" id="dir1">
+    <div class="home-hero"><div class="logo">PANEL DIRECTIVO</div><h1>Ingreso</h1></div>
+    <div class="field"><label>Usuario</label><div class="inp fakeinput">direccion.arcoiris</div></div>
+    <div class="field"><label>Contraseña</label><div class="inp fakeinput">••••••••</div></div>
+    <a class="btn btn-primary" href="#dir2">Ingresar</a>
+  </section>
+
+  <section class="screen" id="dir2">
+    <h1>Jardín Arcoíris</h1>
+    <p class="lead">Campaña 2026 · Vista general</p>
+    <div class="grid2">
+      <div class="stat"><span class="n">142</span><span class="l">Registros</span></div>
+      <div class="stat"><span class="n">98</span><span class="l">Pagados</span></div>
+      <div class="stat"><span class="n">31</span><span class="l">Pendientes</span></div>
+      <div class="stat"><span class="n">$1.76M</span><span class="l">Recaudado</span></div>
+    </div>
+    <h2>Cursos</h2>
+    <a class="card tap" href="#dir3"><div><div style="font-weight:600">Sala 4 · A</div><div style="font-size:12px;color:var(--muted)">18 reg · 11 pagados · 7 pend.</div></div><span style="margin-left:auto;color:var(--accent)">›</span></a>
+    <a class="card tap" href="#dir3"><div><div style="font-weight:600">Sala 4 · B</div><div style="font-size:12px;color:var(--muted)">15 reg · 12 pagados · 3 pend.</div></div><span style="margin-left:auto;color:var(--accent)">›</span></a>
+    <a class="card tap" href="#dir3"><div><div style="font-weight:600">Sala 5 · A</div><div style="font-size:12px;color:var(--muted)">21 reg · 16 pagados · 5 pend.</div></div><span style="margin-left:auto;color:var(--accent)">›</span></a>
+    <a class="btn btn-ghost" href="#repdir">⬇ Exportar listados</a>
+  </section>
+
+  <section class="screen" id="dir3">
+    <h1>Sala 4 · A</h1>
+    <div class="pill-row"><span class="pill">18 registros</span><span class="pill">11 pagados</span><span class="pill">7 pendientes</span></div>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div><div class="nm">Martina Gómez</div><div class="mt">Transferencia · 08/06</div></div><span class="badge b-val">En revisión</span></div>
+      <div class="alumno"><div><div class="nm">Tomás Pérez</div><div class="mt">Efectivo · 07/06</div></div><span class="badge b-pend">Pendiente</span></div>
+      <div class="alumno"><div><div class="nm">Lucía Fernández</div><div class="mt">Mercado Pago · 06/06</div></div><span class="badge b-pay">Pagado</span></div>
+    </div>
+    <a class="btn btn-primary" href="#nuevo">+ Nuevo registro</a>
+    <div class="btn-row" style="margin-top:10px">
+      <a class="btn btn-ghost" href="#dir3">Confirmar pago</a>
+      <a class="btn btn-ghost" href="#dir3">Registrar efectivo</a>
+    </div>
+  </section>
+
+  <!-- ===== FOTÓGRAFA (acceso total) ===== -->
+  <section class="screen" id="a1">
+    <div class="home-hero"><div class="logo">FOTÓGRAFA</div><h1>Ingreso</h1></div>
+    <div class="field"><label>Usuario</label><div class="inp fakeinput">monin</div></div>
+    <div class="field"><label>Contraseña</label><div class="inp fakeinput">••••••••</div></div>
+    <a class="btn btn-primary" href="#a2">Ingresar</a>
+  </section>
+
+  <section class="screen" id="a2">
+    <h1>Panel general</h1>
+    <p class="lead">Hola, Monín 👋</p>
+    <div class="grid2">
+      <div class="stat"><span class="n">3</span><span class="l">Campañas activas</span></div>
+      <div class="stat"><span class="n">12</span><span class="l">Colegios</span></div>
+      <div class="stat"><span class="n">486</span><span class="l">Registros</span></div>
+      <div class="stat"><span class="n">112</span><span class="l">Pendientes</span></div>
+    </div>
+    <h2>Gestión</h2>
+    <a class="card tap" href="#a4"><span class="imgph sm" style="width:40px;height:40px;font-size:18px">📅</span><div><div style="font-weight:600">Campañas</div><div style="font-size:12px;color:var(--muted)">Crear, editar, cerrar, duplicar</div></div></a>
+    <a class="card tap" href="#a3"><span class="imgph sm" style="width:40px;height:40px;font-size:18px">🏫</span><div><div style="font-weight:600">Colegios y productos</div><div style="font-size:12px;color:var(--muted)">Precios, imágenes, fechas, usuarios</div></div></a>
+    <a class="card tap" href="#a5"><span class="imgph sm" style="width:40px;height:40px;font-size:18px">🧾</span><div><div style="font-weight:600">Comprobantes por validar</div><div style="font-size:12px;color:var(--muted)">Transferencias y QR · solo los validás vos</div></div><span style="margin-left:auto" class="badge b-val">8</span></a>
+    <a class="card tap" href="#multi"><span class="imgph sm" style="width:40px;height:40px;font-size:18px">📚</span><div><div style="font-weight:600">Alumnos con más de un álbum</div><div style="font-size:12px;color:var(--muted)">Padres separados · pedidos múltiples</div></div><span style="margin-left:auto" class="badge b-pay">5</span></a>
+    <a class="card tap" href="#rep"><span class="imgph sm" style="width:40px;height:40px;font-size:18px">📊</span><div><div style="font-weight:600">Reportes</div><div style="font-size:12px;color:var(--muted)">Exportar Excel / CSV con filtros</div></div></a>
+    <h2>Registros recientes</h2>
+    <div class="card" style="padding:4px 14px">
+      <div class="reg"><span>#A26-0148 · Martina Gómez</span><span class="badge b-val">En revisión</span></div>
+      <div class="reg"><span>#A26-0147 · Lucía Fernández</span><span class="badge b-pay">Pagado</span></div>
+      <div class="reg"><span>#A26-0146 · Tomás Pérez</span><span class="badge b-pend">Pendiente</span></div>
+    </div>
+  </section>
+
+  <section class="screen" id="multi">
+    <div class="step">Pedidos múltiples</div>
+    <h1>Alumnos con más de un álbum</h1>
+    <p class="lead">Casos de varios álbumes para el mismo alumno (por ejemplo, padres separados que compran por separado).</p>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div><div class="nm">Martina Gómez · Sala 4 · A</div><div class="mt">Laura Gómez · #A26-0148 · Pagado</div><div class="mt">Diego Gómez · #A26-0152 · Pendiente</div></div><span class="badge b-pay" style="align-self:flex-start">2 álbumes</span></div>
+      <div class="alumno"><div><div class="nm">Tomás Pérez · Sala 4 · A</div><div class="mt">Ana Pérez · #A26-0146 · Pagado</div><div class="mt">Marcos Díaz · #A26-0160 · Pagado</div></div><span class="badge b-pay" style="align-self:flex-start">2 álbumes</span></div>
+      <div class="alumno"><div><div class="nm">Lola Sosa · Sala 5 · B</div><div class="mt">Vera Sosa · #A26-0171 · Pagado</div><div class="mt">Juan Sosa · #A26-0182 · Validación</div></div><span class="badge b-pay" style="align-self:flex-start">2 álbumes</span></div>
+    </div>
+    <div class="note">Cada pedido es independiente: tiene su propio responsable, pago y estado, y se entrega por separado.</div>
+  </section>
+
+  <section class="screen" id="a3">
+    <div class="step">Colegios y productos</div>
+    <h1>Jardín Arcoíris</h1>
+    <div class="imgph lg">📷 Imagen del producto</div>
+    <div class="field"><label>Nombre del colegio</label><div class="inp filled fakeinput">Jardín Arcoíris</div></div>
+    <div class="field"><label>Descripción del producto</label><div class="inp filled fakeinput">Carpeta escolar 20×30, tapa dura, 8 fotos…</div></div>
+    <div class="row2">
+      <div class="field"><label>Precio</label><div class="inp filled fakeinput">$ 18.000</div></div>
+      <div class="field"><label>Fecha de las fotos</label><div class="inp filled fakeinput">22/09/2026</div></div>
+    </div>
+    <div class="field"><label>Fecha límite para pagar</label><div class="inp filled fakeinput">15/09/2026</div></div>
+    <h2>Cursos</h2>
+    <p class="hint">Definí los cursos del colegio (grado/sala · división · turno).</p>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div class="nm">Sala 4 · A · Mañana</div><span class="mt">18 registros</span></div>
+      <div class="alumno"><div class="nm">Sala 4 · B · Mañana</div><span class="mt">15 registros</span></div>
+      <div class="alumno"><div class="nm">Sala 5 · A · Tarde</div><span class="mt">21 registros</span></div>
+    </div>
+    <a class="btn btn-ghost" href="#a3">+ Agregar curso</a>
+
+    <h2>Docentes</h2>
+    <p class="hint">Podés asignar varios docentes. Cada uno ve solo los cursos que le asignás (uno o más).</p>
+    <div class="card" style="padding:6px 14px">
+      <a class="alumno" href="#docnew" style="color:inherit"><div><div class="nm">docente.sala4</div><div class="mt">Sala 4 · A y B</div></div><span class="badge b-val">Editar ›</span></a>
+      <a class="alumno" href="#docnew" style="color:inherit"><div><div class="nm">docente.sala5</div><div class="mt">Sala 5 · A</div></div><span class="badge b-val">Editar ›</span></a>
+      <a class="alumno" href="#docnew" style="color:inherit"><div><div class="nm">docente.sala3</div><div class="mt">Sala 3 · A, B y C</div></div><span class="badge b-val">Editar ›</span></a>
+    </div>
+    <a class="btn btn-ghost" href="#docnew">+ Agregar docente</a>
+
+    <h2>Directivos</h2>
+    <p class="hint">Acceso a toda la institución. Puede haber uno o más.</p>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div><div class="nm">direccion.arcoiris</div><div class="mt">Toda la institución</div></div><span class="badge b-val">Editar</span></div>
+    </div>
+    <a class="btn btn-ghost" href="#a3">+ Agregar directivo</a>
+
+    <a class="btn btn-primary" href="#a2" style="margin-top:18px">Guardar colegio</a>
+  </section>
+
+  <!-- Asignar docente a uno o más cursos -->
+  <section class="screen" id="docnew">
+    <div class="step">Docente</div>
+    <h1>Docente</h1>
+    <p class="lead">Creá el acceso del docente y elegí qué cursos puede ver.</p>
+    <div class="card"><div class="kv"><span class="k">Colegio</span><span class="v">Jardín Arcoíris</span></div></div>
+    <div class="row2">
+      <div class="field"><label>Nombre del docente</label><div class="inp fakeinput">Ej. Laura Pérez</div></div>
+      <div class="field"><label>Teléfono</label><div class="inp fakeinput">Ej. 11 2465 8249</div></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Usuario</label><div class="inp fakeinput">docente.sala4</div></div>
+      <div class="field"><label>Contraseña</label><div class="inp fakeinput">••••••••</div></div>
+    </div>
+    <h2>Cursos asignados</h2>
+    <p class="hint">Marcá uno o más. El docente solo verá estos cursos.</p>
+    <div class="card" style="padding:6px 14px">
+      <div class="alumno"><div class="nm">Sala 4 · A · Mañana</div><span class="badge b-pay">✓ Asignado</span></div>
+      <div class="alumno"><div class="nm">Sala 4 · B · Mañana</div><span class="badge b-pay">✓ Asignado</span></div>
+      <div class="alumno"><div class="nm">Sala 5 · A · Tarde</div><span class="badge" style="background:#eef0f0;color:#94a0a0">Sin asignar</span></div>
+      <div class="alumno"><div class="nm">Sala 3 · A · Mañana</div><span class="badge" style="background:#eef0f0;color:#94a0a0">Sin asignar</span></div>
+    </div>
+    <a class="btn btn-primary" href="#a3">Guardar docente</a>
+  </section>
+
+  <section class="screen" id="a4">
+    <div class="step">Campañas</div>
+    <h1>Campañas</h1>
+    <div class="card tap"><div><div style="font-weight:600">Jardín Arcoíris 2026</div><div style="font-size:12px;color:var(--muted)">Activa · 142 registros</div></div><span style="margin-left:auto" class="badge b-pay">Activa</span></div>
+    <div class="card tap"><div><div style="font-weight:600">Colegio San Martín 2026</div><div style="font-size:12px;color:var(--muted)">Activa · 211 registros</div></div><span style="margin-left:auto" class="badge b-pay">Activa</span></div>
+    <div class="card tap"><div><div style="font-weight:600">Jardín Arcoíris 2025</div><div style="font-size:12px;color:var(--muted)">Cerrada · 133 registros</div></div><span style="margin-left:auto" class="badge b-canc">Cerrada</span></div>
+    <a class="btn btn-primary" href="#a4">+ Crear campaña</a>
+    <div class="btn-row" style="margin-top:10px">
+      <a class="btn btn-ghost" href="#a4">Duplicar para 2027</a>
+      <a class="btn btn-ghost" href="#a4">Cerrar campaña</a>
+    </div>
+  </section>
+
+  <section class="screen" id="a5">
+    <div class="step">Comprobantes por validar</div>
+    <h1>Por validar</h1>
+    <p class="lead"><b>Solo vos</b> validás los comprobantes de transferencia y QR. Docentes y directivos solo registran efectivo.</p>
+    <div class="card" style="padding:6px 14px">
+      <a class="alumno" href="#a5v" style="color:inherit"><div><div class="nm">Martina Gómez · Jardín Arcoíris</div><div class="mt">Transferencia · $18.000 · 08/06</div></div><span class="badge b-val">Ver ›</span></a>
+      <a class="alumno" href="#a5v" style="color:inherit"><div><div class="nm">Joaquín Sosa · Colegio San Martín</div><div class="mt">QR Banco Provincia · $20.000 · 08/06</div></div><span class="badge b-val">Ver ›</span></a>
+      <a class="alumno" href="#a5v" style="color:inherit"><div><div class="nm">Camila Ortiz · Jardín Arcoíris</div><div class="mt">Transferencia · $18.000 · 07/06</div></div><span class="badge b-val">Ver ›</span></a>
+    </div>
+  </section>
+
+  <section class="screen" id="a5v">
+    <div class="step">Validar comprobante</div>
+    <h1>Martina Gómez</h1>
+    <div class="imgph lg">🧾 Comprobante adjunto<br><small style="color:#9fb1ad">Tocá para ampliar</small></div>
+    <div class="card">
+      <div class="kv"><span class="k">Colegio</span><span class="v">Jardín Arcoíris</span></div>
+      <div class="kv"><span class="k">Forma de pago</span><span class="v">Transferencia</span></div>
+      <div class="kv"><span class="k">Importe</span><span class="v">$ 18.000</span></div>
+      <div class="kv"><span class="k">Estado actual</span><span class="v"><span class="badge b-val">En revisión</span></span></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#a5">Confirmar pago</a>
+      <a class="btn btn-ghost" href="#a5">Rechazar</a>
+    </div>
+    <div class="note">Al confirmar, el estado pasa a “Pagado” y se guarda fecha, hora y tu usuario.</div>
+  </section>
+
+  <section class="screen" id="rep">
+    <div class="step">Reportes</div>
+    <h1>Exportar registros</h1>
+    <p class="lead">Filtrá y descargá el listado.</p>
+    <div class="grid2">
+      <div class="field"><label>Colegio</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>Grado / sala</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>División</label><div class="inp fakeinput">Todas ▾</div></div>
+      <div class="field"><label>Turno</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>Estado</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>Fecha</label><div class="inp fakeinput">Rango ▾</div></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <a class="btn btn-primary" href="#a2">⬇ Excel</a>
+      <a class="btn btn-ghost" href="#a2">⬇ CSV</a>
+    </div>
+  </section>
+
+  <!-- Exportación del DIRECTIVO: acotada a su institución -->
+  <section class="screen" id="repdir">
+    <div class="step">Exportar listados</div>
+    <h1>Exportar registros</h1>
+    <p class="lead">Descargá el listado de tu institución.</p>
+    <div class="card">
+      <div class="kv"><span class="k">Institución</span><span class="v">Jardín Arcoíris</span></div>
+    </div>
+    <div class="note">🔒 Como directivo, solo podés exportar los listados de tu propia institución.</div>
+    <div class="grid2">
+      <div class="field"><label>Grado / sala</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>División</label><div class="inp fakeinput">Todas ▾</div></div>
+      <div class="field"><label>Turno</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>Estado</label><div class="inp fakeinput">Todos ▾</div></div>
+      <div class="field"><label>Fecha</label><div class="inp fakeinput">Rango ▾</div></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <a class="btn btn-primary" href="#dir2">⬇ Excel</a>
+      <a class="btn btn-ghost" href="#dir2">⬇ CSV</a>
+    </div>
+  </section>
+
+  </div><!--/scrollwrap-->
+</div><!--/device-->
+<script>
+  // Única función JS: copiar el alias. La navegación NO depende de JS.
+  function copyAlias(btn, txt){
+    try{ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt); } }catch(e){}
+    if(!btn.getAttribute('data-l')) btn.setAttribute('data-l', btn.textContent);
+    btn.textContent = '¡Copiado!';
+    setTimeout(function(){ btn.textContent = btn.getAttribute('data-l'); }, 1500);
+  }
+</script>
+</body>
+</html>
